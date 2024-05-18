@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - NewsNest</title>
+  <style>
+    .form-container {
+      max-width: 300px;
+      margin: auto;
+      padding: 1em;
+      border: 1px solid #ccc;
+      border-radius: 1em;
+    }
+    .form-container input {
+      width: 100%;
+      padding: 1em;
+      margin: 0.5em 0;
+    }
+    .form-container button {
+      width: 100%;
+      padding: 1em;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 1em;
+      cursor: pointer;
+    }
+    .form-container button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Register</h2>
+    <form id="registerForm">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <input type="text" id="interests" placeholder="Interests (comma-separated)">
+      <button type="submit">Register</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const interests = document.getElementById('interests').value.split(',');
+
+      try {
+        const response = await fetch('/api/users/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, email, password, interests }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+
+        const data = await response.json();
+        console.log(data);
+        alert('Registration successful!');
+      } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error);
+        alert('Registration failed!');
+      }
+    });
+  </script>
+</body>
+</html>
