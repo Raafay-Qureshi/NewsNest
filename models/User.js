@@ -1,9 +1,10 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const config = require('../config');
 
-const sequelize = new Sequelize(config.db.database, config.db.user, config.db.password, {
-  host: config.db.host,
-  dialect: 'mysql'
+const sequelize = new Sequelize('postgres', 'postgres.lumxwiwmbfcxrhoydwyy', '6XhCHSzsJbc9PZMm', {
+  host: 'aws-0-us-east-1.pooler.supabase.com',
+  dialect: 'postgres',
+  port: 5432
 });
 
 const User = sequelize.define('User', {
