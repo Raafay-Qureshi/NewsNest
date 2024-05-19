@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/users');
-const videoRoutes = require('./routes/videos');
 const path = require('path');
 
 const app = express();
@@ -10,32 +9,29 @@ const PORT = 3000;
 app.use(bodyParser.json());
 
 app.use('/api/users', userRoutes);
-app.use('/api/videos', videoRoutes);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use("/resources", express.static(path.join(__dirname, "resources")));
+
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 app.get('/fyp', (req, res) => {
-    res.sendFile(path.join(__dirname, 'fyp.html'));
+    res.sendFile(path.join(__dirname, 'public/fyp.html'));
   });
 
 app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, 'register.html'));
+    res.sendFile(path.join(__dirname, 'public/register.html'));
   });
 
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'login.html'));
+    res.sendFile(path.join(__dirname, 'public/login.html'));
 });
 
 app.get('/all', (req, res) => {
-    res.sendFile(path.join(__dirname, 'users.html'));
-});
-
-app.get('/addvideo', (req, res) => {
-    res.sendFile(path.join(__dirname, 'add-video.html'));
+    res.sendFile(path.join(__dirname, 'public/users.html'));
 });
 
 app.listen(PORT, () => {
