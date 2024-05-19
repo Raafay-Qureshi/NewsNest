@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Video - NewsNest</title>
+  <style>
+    .form-container {
+      max-width: 300px;
+      margin: auto;
+      padding: 1em;
+      border: 1px solid #ccc;
+      border-radius: 1em;
+    }
+    .form-container input, .form-container textarea {
+      width: 100%;
+      padding: 1em;
+      margin: 0.5em 0;
+    }
+    .form-container button {
+      width: 100%;
+      padding: 1em;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 1em;
+      cursor: pointer;
+    }
+    .form-container button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Add Video</h2>
+    <form id="addVideoForm">
+      <input type="text" id="title" placeholder="Title" required>
+      <textarea id="description" placeholder="Description"></textarea>
+      <input type="text" id="file_path" placeholder="File Path" required>
+      <button type="submit">Add Video</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('addVideoForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const description = document.getElementById('description').value;
+      const file_path = document.getElementById('file_path').value;
+
+      try {
+        const response = await fetch('/api/videos/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ title, description, file_path }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+
+        const data = await response.json();
+        console.log(data);
+        alert('Video added successfully!');
+      } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error);
+        alert('Failed to add video');
+      }
+    });
+  </script>
+</body>
+</html>
