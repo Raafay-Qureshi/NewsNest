@@ -51,26 +51,21 @@
       const password = document.getElementById('password').value;
       const interests = document.getElementById('interests').value.split(',');
 
-      try {
-        const response = await fetch('/api/users/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, email, password, interests }),
-        });
+      const response = await fetch('/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, email, password, interests }),
+      });
 
-        if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
-        }
-
-        const data = await response.json();
-        console.log(data);
-        alert('Registration successful!');
-      } catch (error) {
-        console.error('There has been a problem with your fetch operation:', error);
-        alert('Registration failed!');
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
       }
+
+      const data = await response.json();
+      console.log(data);
+      alert('Registration successful!');
     });
   </script>
 </body>

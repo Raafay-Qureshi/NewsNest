@@ -1,4 +1,11 @@
+require('dotenv').config();
+
 module.exports = {
-    mongoURI: 'mongodb://raafayqureshi207:VBdPyVqmadjF3DHq@users.yp3mvnf.mongodb.net/?retryWrites=true&w=majority&appName=Users',
-    jwtSecret: 'RDjt1O7EzH'
-  };
+  jwtSecret: process.env.JWT_SECRET,
+  db: {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
+  }
+};

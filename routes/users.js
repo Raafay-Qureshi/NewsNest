@@ -5,21 +5,24 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const config = require('../config');
 
-// Register
+// Register Route
 router.post('/register', async (req, res) => {
   const { username, email, password, interests } = req.body;
   try {
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ where: { email } });
     if (user) {
       return res.status(400).json({ msg: 'User already exists' });
     }
 
-    user = new User({ username, email, password, interests });
-
     const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    await user.save();
+    user = await User.create({
+      username,
+      email,
+      password: hashedPassword,
+      interests: interests.join(',')
+    });
 
     const payload = { user: { id: user.id } };
 
@@ -33,11 +36,11 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Login
+// Login Route
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ where: { email } });
     if (!user) {
       return res.status(400).json({ msg: 'Invalid credentials' });
     }
